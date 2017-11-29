@@ -18,15 +18,11 @@ import android.widget.Toast;
 import com.google.android.gms.location.DetectedActivity;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import java.text.MessageFormat;
 import ro.upt.sma.context.activity.ActivityRecognitionHandler;
-import ro.upt.sma.context.activity.ActivityRecognitionService;
 import ro.upt.sma.context.location.LocationHandler;
 
 public class ContextActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -41,7 +37,6 @@ public class ContextActivity extends AppCompatActivity implements OnMapReadyCall
 
   private LocationHandler locationHandler;
   private ActivityRecognitionHandler activityRecognitionHandler;
-
   private LocationCallback locationCallback;
   private PendingIntent activityPendingIntent;
   private BroadcastReceiver activityRecognitionReceiver;
@@ -51,8 +46,7 @@ public class ContextActivity extends AppCompatActivity implements OnMapReadyCall
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    this.fMap = (SupportMapFragment) getSupportFragmentManager()
-        .findFragmentById(R.id.f_map);
+    this.fMap = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.f_map);
     this.tvLocation = findViewById(R.id.tv_location);
     this.tvActivity = findViewById(R.id.tv_activity);
 
@@ -133,31 +127,26 @@ public class ContextActivity extends AppCompatActivity implements OnMapReadyCall
 
   private void setupActivityRecognition() {
     this.activityPendingIntent = activityRecognitionHandler.registerPendingIntent();
+
     this.activityRecognitionReceiver = new BroadcastReceiver() {
       @Override
       public void onReceive(Context context, Intent intent) {
-        if (intent.getAction() != null
-            && intent.getAction().equals(ActivityRecognitionService.INTENT_ACTION)) {
-          int activity = intent.getIntExtra(ActivityRecognitionService.ACTIVITY_EXTRA, -1);
-          updateActivityCard(activity);
-        }
+        // TODO 6: Extract activity type from intent extras and pass it to updateActivityCard() method.
+        // Take a look at ActivityRecognitionService to see how intent extras are formed.
+
       }
     };
-    registerReceiver(activityRecognitionReceiver,
-        new IntentFilter(ActivityRecognitionService.INTENT_ACTION));
+
+    // TODO 7: Register created receiver only for ActivityRecognitionService.INTENT_ACTION.
+    registerReceiver(activityRecognitionReceiver, new IntentFilter());
   }
 
   private void updateMap(Location location) {
     if (googleMap != null) {
-      googleMap.clear();
+      // TODO 3: Clear current marker and create a new marker based on the received location object.
 
-      LatLng position = new LatLng(location.getLatitude(), location.getLongitude());
-      MarkerOptions markerOptions = new MarkerOptions()
-          .position(position)
-          .title("Current location");
+      // TODO 4: Use CameraUpdateFactory to perform a zoom in.
 
-      googleMap.addMarker(markerOptions);
-      googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15));
     }
   }
 

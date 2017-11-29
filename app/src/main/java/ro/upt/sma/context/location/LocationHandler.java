@@ -2,19 +2,12 @@ package ro.upt.sma.context.location;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.util.Log;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
 @SuppressLint("MissingPermission")
 public class LocationHandler {
-
-  private static final String TAG = LocationHandler.class.getSimpleName();
 
   private final FusedLocationProviderClient client;
 
@@ -23,20 +16,10 @@ public class LocationHandler {
   }
 
   public void registerLocationListener(LocationCallback locationCallback) {
-    LocationRequest request = new LocationRequest();
-    request.setSmallestDisplacement(10);
-    request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    // TODO 1: Create a LocationRequest with PRIORITY_HIGH_ACCURACY and smallest displacement to 10m.
 
-    client.requestLocationUpdates(request, locationCallback, null)
-        .addOnCompleteListener(
-            new OnCompleteListener<Void>() {
-              @Override
-              public void onComplete(@NonNull Task<Void> task) {
-                if (task.isComplete()) {
-                  Log.d(TAG, "onComplete: " + task.isSuccessful());
-                }
-              }
-            });
+    // TODO 2: Register request and callback with the fused location service client.
+
   }
 
   public void unregisterLocationListener(LocationCallback locationCallback) {
