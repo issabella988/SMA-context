@@ -9,20 +9,22 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.gms.location.DetectedActivity
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import java.text.MessageFormat
 import ro.upt.sma.context.activity.ActivityRecognitionHandler
+import ro.upt.sma.context.activity.ActivityRecognitionService
 import ro.upt.sma.context.location.LocationHandler
+import java.text.MessageFormat
 
 class ContextActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -127,13 +129,19 @@ class ContextActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // TODO 7: Register created receiver only for ActivityRecognitionService.INTENT_ACTION.
         registerReceiver(activityRecognitionReceiver, IntentFilter())
+
+        registerReceiver.action = ActivityRecognitionService.INTENT_ACTION
     }
 
     private fun updateMap(location: Location) {
         if (googleMap != null) {
             // TODO 3: Clear current marker and create a new marker based on the received location object.
 
+            //val marker = Marker.create()
+
             // TODO 4: Use CameraUpdateFactory to perform a zoom in.
+
+            googleMap.animateCamera(CameraUpdateFactory.zoomIn());
 
         }
     }
